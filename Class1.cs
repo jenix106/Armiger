@@ -66,11 +66,11 @@ namespace Armiger
         }
         public void Update()
         {
-            if (item.data.id == "StarOfTheRogue" && item.isFlying)
+            if (item.data?.id == "StarOfTheRogue" && item.isFlying)
             {
                 item.flyDirRef.Rotate(new Vector3(0, -2160, 0) * Time.deltaTime);
             }
-            if (Vector3.Distance(tkhandle.transform.position, Player.local.head.transform.position) < Player.local.creature.mana.casterRight.telekinesis.maxCatchDistance + (handle.touchCollider as SphereCollider).radius)
+            if (Vector3.Distance(tkhandle.transform.position, Player.local.head.transform.position) < Player.local.creature.mana.casterRight?.telekinesis?.maxCatchDistance + (handle.touchCollider as SphereCollider).radius)
                 (handle.touchCollider as SphereCollider).radius = Mathf.Max(Vector3.Distance(tkhandle.transform.position, Player.local.head.transform.position) * 0.5f, 1f);
             else (handle.touchCollider as SphereCollider).radius = Vector3.Distance(tkhandle.transform.position, Player.local.head.transform.position) - Player.local.creature.mana.casterRight.telekinesis.maxCatchDistance + 0.1f;
         }
@@ -79,7 +79,7 @@ namespace Armiger
             yield return null;
             hand.caster.telekinesis.TryRelease();
             warp = false;
-            item.rb.velocity = Vector3.zero;
+            item.physicBody.velocity = Vector3.zero;
             Quaternion rotation = Player.local.transform.rotation;
             Vector3 position = Player.local.transform.position;
             Common.MoveAlign(Player.local.transform, hand.grip, item.GetMainHandle(hand.side).GetDefaultOrientation(hand.side).transform);
@@ -92,7 +92,7 @@ namespace Armiger
             Player.local.creature.ragdoll.ik.AddLocomotionDeltaRotation(Player.local.transform.rotation * Quaternion.Inverse(rotation), Player.local.transform.TransformPoint(Player.local.creature.transform.localPosition));
             Player.local.locomotion.rb.velocity = Vector3.zero;
             Player.local.locomotion.velocity = Vector3.zero;
-            foreach (RagdollPart part in Player.local.creature.ragdoll.parts) part.rb.velocity = Vector3.zero;
+            foreach (RagdollPart part in Player.local.creature.ragdoll.parts) part.physicBody.velocity = Vector3.zero;
             yield return new WaitForSecondsRealtime(0.1f);
             Player.local.locomotion.rb.velocity = Vector3.zero;
             Player.local.locomotion.velocity = Vector3.zero;
